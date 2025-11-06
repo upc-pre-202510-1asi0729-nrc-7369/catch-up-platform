@@ -1,6 +1,7 @@
 package com.acme.catchup.platform.news.interfaces.rest;
 
 import com.acme.catchup.platform.news.domain.model.aggregates.FavoriteSource;
+import com.acme.catchup.platform.news.domain.model.queries.GetAllFavorite;
 import com.acme.catchup.platform.news.domain.model.queries.GetAllFavoriteSourcesByNewsApiKeyQuery;
 import com.acme.catchup.platform.news.domain.model.queries.GetFavoriteSourceByIdQuery;
 import com.acme.catchup.platform.news.domain.model.queries.GetFavoriteSourceByNewsApiKeyAndSourceIdQuery;
@@ -65,6 +66,21 @@ public class FavoriteSourcesController {
         Optional<FavoriteSource> favoriteSource = favoriteSourceQueryService.handle(new GetFavoriteSourceByIdQuery(id));
         return favoriteSource.map(source -> ResponseEntity.ok(FavoriteSourceResourceFromEntityAssembler.toResourceFromEntity(source)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+
+    @Operation(
+            summary = "Get a favorite source all",
+            description = "Gets a favorite source all")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Favorite source found"),
+            @ApiResponse(responseCode = "404", description = "Favorite source not found")
+    })
+      @GetMapping
+    public ResponseEntity<?> getFavoriteSource() {
+        var favoriteSourceResources = favoriteSourceQueryService.stream().map(FavoriteSourceResourceFromEntityAssembler::toResourceFromEntity).toList();
+        return ResponseEntity.ok(favoriteSourceResources);
+
     }
 
     private ResponseEntity<List<FavoriteSourceResource>> getAllFavoriteSourcesByNewsApiKey(String newsApiKey) {
