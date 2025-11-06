@@ -14,12 +14,9 @@ import java.util.Optional;
 @Service
 public class FavoriteSourceCommandServiceImpl implements FavoriteSourceCommandService {
     private final FavoriteSourceRepository favoriteSourceRepository;
-    private static final Logger LOGGER = LoggerFactory.getLogger(FavoriteSourceCommandServiceImpl.class);
-    private final MessageSource messageSource;
 
     public FavoriteSourceCommandServiceImpl(FavoriteSourceRepository favoriteSourceRepository, MessageSource messageSource) {
         this.favoriteSourceRepository = favoriteSourceRepository;
-        this.messageSource = messageSource;
     }
 
     @Override

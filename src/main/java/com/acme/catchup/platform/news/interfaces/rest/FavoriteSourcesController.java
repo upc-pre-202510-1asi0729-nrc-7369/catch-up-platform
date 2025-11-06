@@ -69,19 +69,6 @@ public class FavoriteSourcesController {
     }
 
 
-    @Operation(
-            summary = "Get a favorite source all",
-            description = "Gets a favorite source all")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Favorite source found"),
-            @ApiResponse(responseCode = "404", description = "Favorite source not found")
-    })
-      @GetMapping
-    public ResponseEntity<?> getFavoriteSource() {
-        var favoriteSourceResources = favoriteSourceQueryService.stream().map(FavoriteSourceResourceFromEntityAssembler::toResourceFromEntity).toList();
-        return ResponseEntity.ok(favoriteSourceResources);
-
-    }
 
     private ResponseEntity<List<FavoriteSourceResource>> getAllFavoriteSourcesByNewsApiKey(String newsApiKey) {
         var getAllFavoriteSourcesByNewsApiKeyQuery = new GetAllFavoriteSourcesByNewsApiKeyQuery(newsApiKey);
